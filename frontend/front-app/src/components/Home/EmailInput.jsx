@@ -1,37 +1,53 @@
 import React from 'react';
+import { Text, TextInput, View, StyleSheet, Dimensions, Platform } from 'react-native';
 
 const EmailInputComponent = () => {
+  const screenWidth = Dimensions.get('window').width;
+  const isPortrait = screenWidth < Dimensions.get('window').height;
+
+  const isMobileDevice = Platform.OS === 'ios' || Platform.OS === 'android';
+  const isTabletDevice = isMobileDevice && screenWidth >= 768;
+
   const emailFieldStyle = {
-    width: '350px',
-    padding: '10px',
-    outline: 'none',
-    border: '1px solid #d7d7e0',
-    borderRadius: '5px',
-    backgroundColor: '#d7d7e0'
+    width: isMobileDevice ? (isPortrait ? 350 : '50%') : isTabletDevice ? 400 : 465,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#d7d7e0',
+    borderRadius: 5,
+    backgroundColor: '#d7d7e0',
+    minHeight: 100,
   };
   const containerStyle = {
-    alignItems: 'flex-start', // Align items to the left
+    alignItems: 'flex-start',
+    marginBottom: 200,
   };
   const asteriskStyle = {
-    color: 'red', // Set the color to red
-    marginLeft: '2px', // Add some space between the text and the asterisk
+    color: 'red',
+    marginLeft: 2,
   };
 
   return (
-    <div style={containerStyle}>
-      <label htmlFor="email" style={{ fontWeight: 'bold', marginBottom: '5px', display: 'block' }}>
+    <View style={containerStyle}>
+      <Text style={styles.label}>
         Email
-        <span style={asteriskStyle}>*</span>
-      </label>
-      <textarea
-        id="email"
-        name="email"
+        <Text style={asteriskStyle}>*</Text>
+      </Text>
+      <TextInput
         style={emailFieldStyle}
         placeholder="Enter your email..."
         required
+        multiline
       />
-    </div>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  label: {
+    fontWeight: 'bold',
+    marginBottom: 5,
+    fontSize: 15,
+  },
+});
 
 export default EmailInputComponent;

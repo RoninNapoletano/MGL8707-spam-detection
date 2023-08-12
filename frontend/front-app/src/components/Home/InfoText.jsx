@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     marginBottom: 150,
   },
   initialText: {
-    fontSize: 14, // Smaller font size
+    fontSize: 15, // Smaller font size
     color: '#A1A3A9', // Custom color
   },
 });

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 
 import EmailInputComponent from '../components/Home/EmailInput';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
@@ -14,16 +14,20 @@ function HomeScreen() {
   };
 
   const handleSubmit = () => {
-    // Effectuez ici vos actions avec l'email saisi (par exemple, soumettez-le à un service)
     console.log('Email soumis :', email);
   };
 
+  const screenWidth = Dimensions.get('window').width;
+  const maxContentWidth = Math.min(500, screenWidth - 20); // Set a maximum width, considering some padding
+
   return (
     <View style={styles.container}>
-      <TextTopComponent text="Entrez votre adresse e-mail :" />
-      <InfoTextComponent text="Entrez votre adresse e-mail :" />
-      <EmailInputComponent value={email} onChangeText={handleEmailChange} />
-      <SubmitButtonComponent onPress={handleSubmit} />
+      <View style={[styles.content, { maxWidth: maxContentWidth }]}>
+        <TextTopComponent text="Saissisez votre email afin de vérifier si il s'agit d'un spam" />
+        <InfoTextComponent text="Vérifier si vos emails ne sont pas des spams grâce à une solution moderne" />
+        <EmailInputComponent value={email} onChangeText={handleEmailChange} />
+        <SubmitButtonComponent onPress={handleSubmit} />
+      </View>
     </View>
   );
 }
@@ -31,10 +35,13 @@ function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Center vertically
-    alignItems: 'center', // Center horizontally
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#F8F9FC',
-    paddingHorizontal: 20, // Add horizontal padding
+  },
+  content: {
+    alignItems: 'flex-start',
+    padding: 10,
   },
 });
 

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-start', // Align items to the left
     marginTop: 10,
-    marginBottom: 150,
+    marginBottom: 130,
   },
   initialText: {
     fontSize: 15, // Smaller font size

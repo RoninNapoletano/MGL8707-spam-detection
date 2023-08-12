@@ -12,14 +12,13 @@ const EmailInputComponent = () => {
     width: isMobileDevice ? (isPortrait ? 350 : '50%') : isTabletDevice ? 400 : 465,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#d7d7e0',
+    borderColor: '#6054B6',
     borderRadius: 5,
-    backgroundColor: '#d7d7e0',
     minHeight: 100,
   };
   const containerStyle = {
     alignItems: 'flex-start',
-    marginBottom: 200,
+    marginBottom: 20,
   };
   const asteriskStyle = {
     color: 'red',
@@ -34,7 +33,6 @@ const EmailInputComponent = () => {
       </Text>
       <TextInput
         style={emailFieldStyle}
-        placeholder="Enter your email..."
         required
         multiline
       />

@@ -1,15 +1,16 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import Constants from 'expo-constants';
 
 const firebaseConfig = {
-  apiKey: process.env.APIKEY,
-  authDomain: process.env.AUTHDOMAIN,
-  projectId: process.env.PROJECTID,
-  storageBucket: process.env.STORAGEBUCKET,
-  messagingSenderId: process.env.MESSAGINGSENDERID,
-  appId: process.env.APPID,
-  measurementId: process.env.MEASUREMENTID,
+  apiKey: Constants.manifest.extra.APIKEY,
+  authDomain: Constants.manifest.extra.AUTHDOMAIN,
+  projectId: Constants.manifest.extra.PROJECTID,
+  storageBucket: Constants.manifest.extra.STORAGEBUCKET,
+  messagingSenderId: Constants.manifest.extra.MESSAGINGSENDERID,
+  appId: Constants.manifest.extra.APPID,
+  measurementId: Constants.manifest.extra.MEASUREMENTID,
 };
 
 if (!firebase.apps.length) {

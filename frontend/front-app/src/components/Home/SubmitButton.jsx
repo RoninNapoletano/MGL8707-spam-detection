@@ -2,9 +2,9 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { TextInput, View, Dimensions, Platform } from 'react-native';
 
-const SubmitButtonComponent = ({ onPress }) => (
+const SubmitButtonComponent = ({ onPress, text }) => (
   <TouchableOpacity style={styles.button} onPress={onPress}>
-    <Text style={styles.buttonText}>Envoyer</Text>
+    <Text style={styles.buttonText}>{text}</Text>
   </TouchableOpacity>
 );
 

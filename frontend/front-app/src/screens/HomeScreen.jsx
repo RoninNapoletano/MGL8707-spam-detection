@@ -55,7 +55,7 @@ function HomeScreen() {
             <TextTopComponent text="Saissisez votre email afin de vérifier si il s'agit d'un spam" />
             <InfoTextComponent text="Vérifier si vos emails ne sont pas des spams grâce à une solution moderne" />
             <EmailInputComponent value={email} onChangeText={handleEmailChange} />
-            <SubmitButtonComponent onPress={handleSubmit} />
+            <SubmitButtonComponent onPress={handleSubmit} text="Envoyer" />
           </View>
         {/* </InputScrollView> */}
       </KeyboardAwareScrollView>

@@ -4,14 +4,14 @@ import AuthService from '../services/AuthService';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
 import { useNavigation } from '@react-navigation/native';
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const navigation = useNavigation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
-  const [isPasswordWeak, setIsPasswordWeak] = useState(false); // Nouvel état pour gérer le mot de passe faible
+  const [isPasswordWeak, setIsPasswordWeak] = useState(false);
 
   const handleLogin = async () => {
     if (!emailIsValid(email)) {
@@ -23,6 +23,8 @@ export default function LoginScreen() {
 
     if (error) {
       setErrorMessage(error);
+    } else {
+      navigation.navigate('Home'); // Redirige vers la page Home en cas de succès
     }
   };
 
@@ -39,9 +41,9 @@ export default function LoginScreen() {
     } else if (result instanceof Error) {
       setErrorMessage(result.message);
     } else {
-      setErrorMessage(null); // Efface les erreurs précédentes en cas de succès
+      setErrorMessage(null);
       setIsPasswordWeak(false);
-      setSuccessMessage('Inscription réussie !');
+      navigation.navigate('Home'); // Redirige vers la page Home en cas de succès
     }
   };
 

@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons'; // Importez les ic√¥nes appropri√
 
 import HomeScreen from '../../screens/HomeScreen';
 import LoginScreen
- from '../../screens/LoginScreen';
+ from '../../screens/RegisterScreen';
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {

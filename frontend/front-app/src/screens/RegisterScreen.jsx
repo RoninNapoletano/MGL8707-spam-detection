@@ -43,7 +43,7 @@ export default function RegisterScreen() {
     } else {
       setErrorMessage(null);
       setIsPasswordWeak(false);
-      navigation.navigate('Home'); // Redirige vers la page Home en cas de succès
+      navigation.navigate('Home', { isLoginSuccessVisible: true }); // Redirige vers la page Home en cas de succès
     }
   };
 

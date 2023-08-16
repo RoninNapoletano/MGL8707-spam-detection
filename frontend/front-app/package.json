@@ -31,6 +31,7 @@
     "react-native-snackbar": "^2.6.2",
     "react-native-textarea": "^1.0.4",
     "react-native-textinput-effects": "^0.6.3",
+    "react-native-toast-message": "^2.1.6",
     "react-native-web": "~0.18.10",
     "react-navigation-header-buttons": "^11.0.0",
     "react-toastify": "^9.1.3"

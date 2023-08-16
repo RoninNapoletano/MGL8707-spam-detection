@@ -2,10 +2,7 @@ import React, { useState, useEffect  } from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { PinchGestureHandler, State } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import InputScrollView from 'react-native-input-scroll-view';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { ToastContainer, toast } from 'react-toastify'; // Importez react-toastify
-import 'react-toastify/dist/ReactToastify.css';
 
 import EmailInputComponent from '../components/Home/EmailInput';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
@@ -16,6 +13,7 @@ function HomeScreen() {
   const [email, setEmail] = useState('');
 
   const [isLoginSuccessVisible, setIsLoginSuccessVisible] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const route = useRoute();
 
   const screenWidth = Dimensions.get('window').width;
@@ -51,16 +49,6 @@ function HomeScreen() {
 
   useEffect(() => {
     if (route.params && route.params.isLoginSuccessVisible) {
-      toast.success('Connexion réussie !', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-      });
     }
   }, [route.params]);
 
@@ -72,7 +60,6 @@ function HomeScreen() {
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         {/* Or use InputScrollView */}
         {/* <InputScrollView contentContainerStyle={styles.container}> */}
-        <ToastContainer/>
           <View style={[styles.content, contentStyle, { maxWidth: maxContentWidth }]}>
            <TextTopComponent text="Saissisez votre email afin de vérifier si il s'agit d'un spam" />
             <InfoTextComponent text="Vérifier si vos emails ne sont pas des spams grâce à une solution moderne" />

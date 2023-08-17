@@ -115,12 +115,7 @@ export default function RegisterScreen() {
       {isPasswordWeak && (
         <Text style={styles.errorText}>Le mot de passe est trop faible</Text>
       )}
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={handleRegister}
-      >
-        <Text style={styles.buttonText}>S'enregistrer</Text>
-      </TouchableOpacity>
+      <SubmitButtonComponent onPress={handleRegister} text="S'enregistrer" />
       <TouchableOpacity style={styles.loginLinkContainer} onPress={() => navigation.navigate('LoginScreen')}>
         <Text style={styles.loginLink}>Déjà un compte ? <Text style={styles.violetText}>Se connecter</Text></Text>
       </TouchableOpacity>

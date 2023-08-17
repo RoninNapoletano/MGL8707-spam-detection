@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
 import RegisterScreen from './RegisterScreen';
+import SubmitButtonComponent from '../components/Home/SubmitButton';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -40,12 +41,7 @@ export default function LoginScreen({ navigation }) {
           isPasswordFocused && styles.inputFocused,
         ]}
       />
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={handleLogin}
-      >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      <SubmitButtonComponent onPress={handleLogin} text="Se connecter" />
       <TouchableOpacity style={styles.loginLinkContainer} onPress={() => navigation.navigate('RegisterScreen')}>
         <Text style={styles.loginLink}>Pas de compte ? <Text style={styles.violetText}>S'enregistrer</Text></Text>
       </TouchableOpacity>

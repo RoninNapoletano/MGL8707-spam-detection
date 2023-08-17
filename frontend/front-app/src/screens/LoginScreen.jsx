@@ -7,13 +7,39 @@ import { TextInput } from 'react-native-paper';
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isEmailFocused, setIsEmailFocused] = useState(false);
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
 
-  const handleLogin = () => {
-    // Handle login logic here
-    // For example, you can use AuthService to authenticate the user
+  const handleLogin = async () => {
+    if (!emailIsValid(email)) {
+      setIsEmailInvalid(true);
+      return;
+    }
+  
+    try {
+      await AuthService.loginWithEmailAndPassword(email, password).then(async(user)=>{
+        const auth = getAuth();
+        const idToken = await getIdToken(auth.currentUser);
+        await tokenStorage.saveToken("id_token", idToken);
+        await tokenStorage.saveToken("uid", user.uid);
+        await tokenStorage.saveToken(
+          "isAnonymous",
+          user.isAnonymous
+        );
+        
+      });
+      setErrorMessage(null);
+      setIsPasswordWeak(false);
+      dispatch({ type: 'open', message: 'Bienvenue', alertType: 'success' });      
+      navigation.navigate('Home', { isLoginSuccessVisible: true });
+    } catch (error) {
+        setErrorMessage(error.message);
+    }
+  };  
+
+  const emailIsValid = email => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   return (
@@ -69,9 +95,6 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 15,
     paddingHorizontal: 10,
-  },
-  inputFocused: {
-    borderColor: '#6054B6', // Change color when focused
   },
   loginButton: {
     width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,

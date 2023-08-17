@@ -28,6 +28,21 @@ class AuthService {
       throw error;
     }
   }
+
+  async loginWithEmailAndPassword(email, password) {
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        return userCredential.user; 
+      })
+      .catch((error) => {
+        return error.message
+      });
+    } catch (error) {
+      console.error('Erreur lors de la vérification:', error);
+      throw error;
+    }
+  }
 }  
 
 export default new AuthService();

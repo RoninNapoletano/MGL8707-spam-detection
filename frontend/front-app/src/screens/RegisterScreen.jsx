@@ -52,7 +52,6 @@ export default function RegisterScreen() {
       await AuthService.registerWithEmailAndPassword(email, password).then(async(user)=>{
         const auth = getAuth();
         const idToken = await getIdToken(auth.currentUser);
-        console.log(idToken)
         await tokenStorage.saveToken("id_token", idToken);
         await tokenStorage.saveToken("uid", user.uid);
         await tokenStorage.saveToken(
@@ -77,9 +76,6 @@ export default function RegisterScreen() {
   const emailIsValid = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-  };
-  const handleNavigateToLogin = () => {
-    navigation.navigate('Login');
   };
 
   return (

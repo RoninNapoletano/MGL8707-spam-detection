@@ -5,6 +5,7 @@ import SubmitButtonComponent from '../components/Home/SubmitButton';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, getIdToken } from 'firebase/auth';
 
+import LoginScreen from './LoginScreen';
 import TokenStorage from '../utils/Token.js'
 
 export default function RegisterScreen() {
@@ -28,7 +29,7 @@ export default function RegisterScreen() {
       if (error) {
         setErrorMessage(error);
       } else {
-        navigation.navigate('Home'); 
+        navigation.navigate('LoginScreen'); 
       }
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);
@@ -71,6 +72,9 @@ export default function RegisterScreen() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  const handleNavigateToLogin = () => {
+    navigation.navigate('Login'); // Remplacez 'Login' par le nom que vous avez donné à votre page de connexion
+  };
 
   return (
     <View style={styles.container}>
@@ -108,8 +112,14 @@ export default function RegisterScreen() {
         <Text style={styles.errorText}>Le mot de passe est trop faible</Text>
       )}
       <SubmitButtonComponent onPress={handleRegister} text="Register" />
+      
+      {/* Lien pour rediriger vers la page de connexion */}
+      <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+      <Text style={styles.loginLink}>Déjà un compte ? Se connecter</Text>
+    </TouchableOpacity>
     </View>
-  );
+);
+
 }
 
 const styles = StyleSheet.create({

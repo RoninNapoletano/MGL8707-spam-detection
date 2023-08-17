@@ -2,11 +2,14 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'; // Importez les icônes appropriées
+import { createStackNavigator } from "@react-navigation/stack";
 
 import HomeScreen from '../../screens/HomeScreen';
-import LoginScreen
- from '../../screens/RegisterScreen';
+import LoginScreen from '../../screens/LoginScreen';
+
+import AuthStack from './AuthStack';
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function Navigation() {
   return (
@@ -21,15 +24,13 @@ export default function Navigation() {
             ),
           }}
         />
-        <Tab.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{
+ 
+       <Tab.Screen name="Login" component={AuthStack} options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="log-in" size={size} color={color} />
             ),
-          }}
-        />
+          }}/>
+
       </Tab.Navigator>
     </NavigationContainer>
   );

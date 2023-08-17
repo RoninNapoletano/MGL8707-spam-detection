@@ -1,6 +1,6 @@
 import {firebaseApp, auth} from '../firebase/config.js';
 import UserService from './UserService.js';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword  } from 'firebase/auth';
 import 'firebase/compat/firestore';
 import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 

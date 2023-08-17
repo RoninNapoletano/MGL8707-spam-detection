@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
 import RegisterScreen from './RegisterScreen';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
-import { TextInput } from 'react-native-paper';
+import { HelperText, TextInput } from 'react-native-paper';
+
+import AuthService from '../services/AuthService';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isEmailInvalid, setIsEmailInvalid] = useState(false);
+  const [isPasswordWeak, setIsPasswordWeak] = useState(false);
 
 
   const handleLogin = async () => {
@@ -50,11 +54,15 @@ export default function LoginScreen({ navigation }) {
         placeholder="exemple@uqam.ca"
         value={email}
         mode='outlined'
+        error={isEmailInvalid}
         onChangeText={setEmail}
         style={[
           styles.input,
         ]}
       />
+      <HelperText type="error" visible={isEmailInvalid}>
+      L'email est mal formaté
+      </HelperText>
            <TextInput
         label="Mot de passe"
         value={password}
@@ -65,6 +73,9 @@ export default function LoginScreen({ navigation }) {
           styles.input,
         ]}
       />
+      <HelperText type="error" visible={isPasswordWeak}>
+        Le mot de passe est trop faible
+      </HelperText>
       <SubmitButtonComponent onPress={handleLogin} text="Se connecter" />
       <TouchableOpacity style={styles.loginLinkContainer} onPress={() => navigation.navigate('RegisterScreen')}>
         <Text style={styles.loginLink}>Pas de compte ? <Text style={styles.violetText}>S'enregistrer</Text></Text>
@@ -80,7 +91,7 @@ const isMobileDevice = Platform.OS === 'ios' || Platform.OS === 'android';
 const isTabletDevice = isMobileDevice && screenWidth >= 768;
 
 const styles = StyleSheet.create({
-  container: {
+   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -93,8 +104,9 @@ const styles = StyleSheet.create({
   input: {
     width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,
     height: 40,
-    marginBottom: 15,
-    paddingHorizontal: 10,
+  },
+  inputFocused: {
+    borderColor: '#6054B6', // Change color when focused
   },
   loginButton: {
     width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,
@@ -116,5 +128,13 @@ const styles = StyleSheet.create({
   },
   violetText: {
     color: '#6054B6', // Couleur violette
+  },
+  error: {
+    color: 'red',
+    marginTop: 10,
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 5,
   },
 });

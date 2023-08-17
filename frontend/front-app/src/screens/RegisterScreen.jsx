@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext  } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
 import AuthService from '../services/AuthService';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, getIdToken } from 'firebase/auth';
 
+import { AlertContext } from '../contexts/Alert';
+import { useAlert } from "../contexts/Alert";
 import LoginScreen from './LoginScreen';
 import TokenStorage from '../utils/Token.js'
 
@@ -17,6 +19,7 @@ export default function RegisterScreen() {
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
   const [isPasswordWeak, setIsPasswordWeak] = useState(false);
   const tokenStorage = new TokenStorage();
+  const { dispatch } = useContext(AlertContext);
 
   const handleLogin = async () => {
     if (!emailIsValid(email)) {
@@ -58,6 +61,7 @@ export default function RegisterScreen() {
       });
       setErrorMessage(null);
       setIsPasswordWeak(false);
+      dispatch({ type: 'open', message: 'Enregistrement réussi', alertType: 'success' });      
       navigation.navigate('Home', { isLoginSuccessVisible: true });
     } catch (error) {
       if (error.message === 'Mot de passe faible. Veuillez choisir un mot de passe plus fort.') {
@@ -73,7 +77,7 @@ export default function RegisterScreen() {
     return emailRegex.test(email);
   };
   const handleNavigateToLogin = () => {
-    navigation.navigate('Login'); // Remplacez 'Login' par le nom que vous avez donné à votre page de connexion
+    navigation.navigate('Login');
   };
 
   return (

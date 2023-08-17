@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
 import RegisterScreen from './RegisterScreen';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
 import { HelperText, TextInput } from 'react-native-paper';
+import { getAuth, getIdToken } from 'firebase/auth';
+
+import { AlertContext } from '../contexts/Alert';
 
 import AuthService from '../services/AuthService';
+import TokenStorage from '../utils/Token.js'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(null);
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
   const [isPasswordWeak, setIsPasswordWeak] = useState(false);
+  const[isGlobalError, setGlobalError] = useState(false)
 
+  const tokenStorage = new TokenStorage();
+  const { dispatch } = useContext(AlertContext)
 
   const handleLogin = async () => {
     if (!emailIsValid(email)) {
@@ -21,7 +27,8 @@ export default function LoginScreen({ navigation }) {
     }
   
     try {
-      await AuthService.loginWithEmailAndPassword(email, password).then(async(user)=>{
+      await AuthService.loginWithEmailAndPassword(email, password)
+      .then(async(user)=>{
         const auth = getAuth();
         const idToken = await getIdToken(auth.currentUser);
         await tokenStorage.saveToken("id_token", idToken);
@@ -30,14 +37,19 @@ export default function LoginScreen({ navigation }) {
           "isAnonymous",
           user.isAnonymous
         );
-        
-      });
-      setErrorMessage(null);
+        dispatch({ type: 'open', message: 'Bienvenue', alertType: 'success' });      
+        navigation.navigate('Home', { isLoginSuccessVisible: true });
+        setGlobalError(false);
+      }) .catch((error) => {
+        console.log(error)
+        setGlobalError(true);
+        return
+      })
       setIsPasswordWeak(false);
-      dispatch({ type: 'open', message: 'Bienvenue', alertType: 'success' });      
-      navigation.navigate('Home', { isLoginSuccessVisible: true });
+    
     } catch (error) {
-        setErrorMessage(error.message);
+      console.log(error)
+      setGlobalError(true);
     }
   };  
 
@@ -54,9 +66,11 @@ export default function LoginScreen({ navigation }) {
         placeholder="exemple@uqam.ca"
         value={email}
         mode='outlined'
-        error={isEmailInvalid}
-        onChangeText={setEmail}
-        style={[
+        error={isEmailInvalid || isGlobalError}
+        onChangeText={text => {
+          setEmail(text);
+          setIsEmailInvalid(false);
+        }}         style={[
           styles.input,
         ]}
       />
@@ -67,14 +81,15 @@ export default function LoginScreen({ navigation }) {
         label="Mot de passe"
         value={password}
         mode='outlined'
+        error={isGlobalError}
         onChangeText={setPassword}
         secureTextEntry='true'
         style={[
           styles.input,
         ]}
       />
-      <HelperText type="error" visible={isPasswordWeak}>
-        Le mot de passe est trop faible
+      <HelperText type="error" visible={isGlobalError}>
+        Erreur dans la combinaison email/mot de passe
       </HelperText>
       <SubmitButtonComponent onPress={handleLogin} text="Se connecter" />
       <TouchableOpacity style={styles.loginLinkContainer} onPress={() => navigation.navigate('RegisterScreen')}>

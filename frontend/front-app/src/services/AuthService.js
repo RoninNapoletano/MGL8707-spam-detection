@@ -36,11 +36,10 @@ class AuthService {
         return userCredential.user; 
       })
       .catch((error) => {
-        return error.message
+        throw new Error('Combinaison email/mot de passe invalide');
       });
     } catch (error) {
-      console.error('Erreur lors de la vérification:', error);
-      throw error;
+      throw new Error('Combinaison email/mot de passe invalide');
     }
   }
 }  

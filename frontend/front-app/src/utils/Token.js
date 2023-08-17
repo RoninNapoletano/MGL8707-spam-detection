@@ -8,7 +8,7 @@ class TokenStorage {
       } else if (!key.match(/^[\w.-]+$/)) {
         console.log("Key contains invalid characters");
       } else {
-        await AsyncStorage.setItemAsync(key, JSON.stringify(token));
+        await AsyncStorage.setItem(key, JSON.stringify(token));
       }
     } catch (error) {
       console.log("Error while saving token: ", error);
@@ -17,7 +17,7 @@ class TokenStorage {
 
   async getToken(key) {
     try {
-      const token = await AsyncStorage.getItemAsync(key);
+      const token = await AsyncStorage.getItem(key);
       return JSON.parse(token);
     } catch (error) {
       console.log("Error while retrieving the token: ", error);

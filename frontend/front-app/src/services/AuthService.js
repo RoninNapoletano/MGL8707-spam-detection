@@ -12,7 +12,7 @@ class AuthService {
   async registerWithEmailAndPassword(email, password) {
     try {
       const authResult = await createUserWithEmailAndPassword(auth, email, password);
-      await sendEmailVerification(authResult.user);
+      sendEmailVerification(authResult.user);
   
       const userCreated = await this.userService.createUser(authResult.user.uid, authResult.user.email);
       if (userCreated) {

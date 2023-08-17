@@ -16,7 +16,7 @@ export default function RegisterScreen() {
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
   const [isPasswordWeak, setIsPasswordWeak] = useState(false);
   const tokenStorage = new TokenStorage();
-  
+
   const handleLogin = async () => {
     if (!emailIsValid(email)) {
       setIsEmailInvalid(true);
@@ -44,7 +44,6 @@ export default function RegisterScreen() {
   
     try {
       await AuthService.registerWithEmailAndPassword(email, password).then(async(user)=>{
-        console.log(user)
         const auth = getAuth();
         const idToken = await getIdToken(auth.currentUser);
         console.log(idToken)

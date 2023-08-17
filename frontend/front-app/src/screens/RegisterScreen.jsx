@@ -91,7 +91,8 @@ export default function RegisterScreen() {
         onChangeText={text => {
           setEmail(text);
           setIsEmailInvalid(false);
-        }}        style={[
+        }}       
+        style={[
           styles.input,
         ]}
       />

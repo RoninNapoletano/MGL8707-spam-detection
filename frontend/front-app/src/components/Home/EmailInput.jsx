@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, TextInput, View, StyleSheet, Dimensions, Platform } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, Platform } from 'react-native';
+import { HelperText, TextInput } from 'react-native-paper';
 
 const EmailInputComponent = () => {
   const screenWidth = Dimensions.get('window').width;
@@ -17,8 +18,9 @@ const EmailInputComponent = () => {
     minHeight: 100,
   };
   const containerStyle = {
+    width: isMobileDevice ? (isPortrait ? 350 : '50%') : isTabletDevice ? 400 : 465,
     alignItems: 'flex-start',
-    marginBottom: 20,
+    marginBottom: 15,
   };
   const asteriskStyle = {
     color: 'red',
@@ -26,19 +28,24 @@ const EmailInputComponent = () => {
   };
 
   return (
-    <View style={containerStyle}>
-      <Text style={styles.label}>
-        Email
-        <Text style={asteriskStyle}>*</Text>
-      </Text>
       <TextInput
-        style={emailFieldStyle}
+        placeholder="Email à analyser"
+        label="Email à analyser"
+        mode="outlined"
         required
         multiline
+        style={[
+          styles.input,
+        ]}
       />
-    </View>
   );
 };
+
+const screenWidth = Dimensions.get('window').width;
+const isPortrait = screenWidth < Dimensions.get('window').height;
+
+const isMobileDevice = Platform.OS === 'ios' || Platform.OS === 'android';
+const isTabletDevice = isMobileDevice && screenWidth >= 768;
 
 const styles = StyleSheet.create({
   label: {
@@ -46,6 +53,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 15,
   },
+  input:{
+    width: isMobileDevice ? (isPortrait ? 350 : '50%') : isTabletDevice ? 400 : 465,
+    height: 150,
+    marginBottom: 20,
+  }
 });
 
 export default EmailInputComponent;

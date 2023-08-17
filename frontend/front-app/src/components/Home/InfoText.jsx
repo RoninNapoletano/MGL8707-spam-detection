@@ -14,8 +14,8 @@ const InfoTextComponent = ({ text }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-start', // Align items to the left
-    marginTop: 10,
-    marginBottom: 130,
+    marginTop: 5,
+    marginBottom: 100,
   },
   initialText: {
     fontSize: 15, // Smaller font size

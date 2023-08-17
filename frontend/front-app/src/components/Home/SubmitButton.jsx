@@ -10,7 +10,7 @@ const isMobileDevice = Platform.OS === 'ios' || Platform.OS === 'android';
 const isTabletDevice = isMobileDevice && screenWidth >= 768;
 
 const SubmitButtonComponent = ({ onPress, text }) => (
-  <Button mode="contained" onPress={onPress} style={{ width:  isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465 }} >
+  <Button mode="contained" onPress={onPress} style={{ width:  isMobileDevice ? (isPortrait ? 350 : '50%') : isTabletDevice ? 400 : 465 }} >
     {text}
   </Button>
 );

@@ -70,7 +70,8 @@ export default function LoginScreen({ navigation }) {
         onChangeText={text => {
           setEmail(text);
           setIsEmailInvalid(false);
-        }}         style={[
+        }}         
+        style={[
           styles.input,
         ]}
       />
@@ -111,20 +112,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
+    backgroundColor: '#fff',
   },
   heading: {
     fontSize: 24,
     marginBottom: 20,
   },
   input: {
-    width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,
-    height: 40,
+    width: isMobileDevice ? (isPortrait ? 350 : '50%') : isTabletDevice ? 400 : 465,
+    height: isMobileDevice ? 50 : 40,
   },
   inputFocused: {
     borderColor: '#6054B6', // Change color when focused
   },
   loginButton: {
-    width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,
+    width: isMobileDevice ? (isPortrait ? 350 : '50%') : isTabletDevice ? 400 : 465,
     backgroundColor: '#6054B6', 
     borderRadius: 10,
     paddingVertical: 10,

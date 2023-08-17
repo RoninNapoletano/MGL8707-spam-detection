@@ -1,6 +1,6 @@
 import React, { useState, useContext  } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { HelperText, TextInput } from 'react-native-paper';
 
 import AuthService from '../services/AuthService';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
@@ -99,6 +99,9 @@ export default function RegisterScreen() {
           styles.input,
         ]}
       />
+      <HelperText type="error" visible={isEmailInvalid}>
+      L'email est mal formaté
+      </HelperText>
            <TextInput
         label="Mot de passe"
         value={password}
@@ -113,13 +116,9 @@ export default function RegisterScreen() {
           styles.input,
         ]}
          />
-      {isEmailInvalid && (
-        <Text style={styles.errorText}>L'email est mal formaté</Text>
-      )}
-    
-      {isPasswordWeak && (
-        <Text style={styles.errorText}>Le mot de passe est trop faible</Text>
-      )}
+      <HelperText type="error" visible={isPasswordWeak}>
+      Le mot de passe est trop faible
+      </HelperText>
       <SubmitButtonComponent onPress={handleRegister} text="S'enregistrer" />
       <TouchableOpacity style={styles.loginLinkContainer} onPress={() => navigation.navigate('LoginScreen')}>
         <Text style={styles.loginLink}>Déjà un compte ? <Text style={styles.violetText}>Se connecter</Text></Text>
@@ -150,7 +149,6 @@ const styles = StyleSheet.create({
   input: {
     width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,
     height: 40,
-    marginBottom: 15,
   },
   inputFocused: {
     borderColor: '#6054B6', // Change color when focused

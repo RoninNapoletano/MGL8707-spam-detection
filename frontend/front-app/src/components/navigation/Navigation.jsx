@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'; // Importez les icônes appropriées
 import { createStackNavigator } from "@react-navigation/stack";
+import {  StyleSheet} from 'react-native';
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -35,9 +36,12 @@ useEffect(() => {
       <Tab.Navigator 
        screenOptions={{
         tabBarActiveTintColor: "#6054B6",
-        tabBarInactiveTintColor: "#272D2F",
+        tabBarInactiveTintColor: "#767676",
         headerShown: false,
-      }}>
+      }}
+      tabBarOptions={{tabStyle: { borderTopWidth: 2, borderTopColor: '#dadde2' }
+      , style: { borderTopWidth: 2, borderTopColor: '#dadde2'} }}
+      >
         <Tab.Screen
           name="Home"
           component={HomeScreen}
@@ -84,3 +88,10 @@ useEffect(() => {
     </NavigationContainer>
   );
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    borderTopWidth: '2px'
+  },
+})

@@ -7,14 +7,14 @@ import firebase from './src/firebase/config'
 export default function App() {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
+  /*useEffect(() => {
     // Vérifier si un utilisateur est déjà connecté
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       setUser(user);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, []);*/
   return (
     <Navigation />
   );

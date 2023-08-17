@@ -1,4 +1,5 @@
 import * as SecureStore from "expo-secure-store";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 class TokenStorage {
   async saveToken(key, token) {
     try {
@@ -7,7 +8,7 @@ class TokenStorage {
       } else if (!key.match(/^[\w.-]+$/)) {
         console.log("Key contains invalid characters");
       } else {
-        await SecureStore.setItemAsync(key, JSON.stringify(token));
+        await AsyncStorage.setItemAsync(key, JSON.stringify(token));
       }
     } catch (error) {
       console.log("Error while saving token: ", error);
@@ -16,7 +17,7 @@ class TokenStorage {
 
   async getToken(key) {
     try {
-      const token = await SecureStore.getItemAsync(key);
+      const token = await AsyncStorage.getItemAsync(key);
       return JSON.parse(token);
     } catch (error) {
       console.log("Error while retrieving the token: ", error);

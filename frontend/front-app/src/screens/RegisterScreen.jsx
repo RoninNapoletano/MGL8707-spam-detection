@@ -3,6 +3,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import AuthService from '../services/AuthService';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
 import { useNavigation } from '@react-navigation/native';
+import { getAuth, getIdToken } from 'firebase/auth';
+
+import TokenStorage from '../utils/Token.js'
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
@@ -12,40 +15,58 @@ export default function RegisterScreen() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
   const [isPasswordWeak, setIsPasswordWeak] = useState(false);
-
+  const tokenStorage = new TokenStorage();
+  
   const handleLogin = async () => {
     if (!emailIsValid(email)) {
       setIsEmailInvalid(true);
       return;
     }
 
-    const error = await AuthService.signInWithEmailAndPassword(email, password);
-
-    if (error) {
-      setErrorMessage(error);
-    } else {
-      navigation.navigate('Home'); // Redirige vers la page Home en cas de succès
+    try {
+      const error = await AuthService.signInWithEmailAndPassword(email, password);
+      if (error) {
+        setErrorMessage(error);
+      } else {
+        navigation.navigate('Home'); 
+      }
+    } catch (error) {
+      console.error('Erreur lors de la connexion:', error);
+    
     }
-  };
+  }
 
   const handleRegister = async () => {
     if (!emailIsValid(email)) {
       setIsEmailInvalid(true);
       return;
     }
-
-    const result = await AuthService.registerWithEmailAndPassword(email, password);
-
-    if (result === 'weak-password') {
-      setIsPasswordWeak(true);
-    } else if (result instanceof Error) {
-      setErrorMessage(result.message);
-    } else {
+  
+    try {
+      await AuthService.registerWithEmailAndPassword(email, password).then(async(user)=>{
+        console.log(user)
+        const auth = getAuth();
+        const idToken = await getIdToken(auth.currentUser);
+        console.log(idToken)
+        await tokenStorage.saveToken("id_token", idToken);
+        await tokenStorage.saveToken("uid", user.uid);
+        await tokenStorage.saveToken(
+          "isAnonymous",
+          user.isAnonymous
+        );
+        
+      });
       setErrorMessage(null);
       setIsPasswordWeak(false);
-      navigation.navigate('Home', { isLoginSuccessVisible: true }); // Redirige vers la page Home en cas de succès
+      navigation.navigate('Home', { isLoginSuccessVisible: true });
+    } catch (error) {
+      if (error.message === 'Mot de passe faible. Veuillez choisir un mot de passe plus fort.') {
+        setIsPasswordWeak(true);
+      } else {
+        setErrorMessage(error.message);
+      }
     }
-  };
+  };  
 
   const emailIsValid = email => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

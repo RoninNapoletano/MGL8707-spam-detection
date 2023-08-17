@@ -1,17 +1,33 @@
-import firebase from '../firebase/config.js';
+import {firebaseApp, auth} from '../firebase/config.js';
+import UserService from './UserService.js';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import 'firebase/compat/firestore';
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 
 class AuthService {
+  constructor() {
+    this.userService = new UserService(getFirestore(firebaseApp)); // Pass the Firestore instance
+  }
+
   async registerWithEmailAndPassword(email, password) {
     try {
-      const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      return userCredential.user;
-    } catch (error) {
-      if (error.code === 'auth/weak-password') {
-        return 'weak-password'; // Renvoyer un code d'erreur spécifique pour mot de passe faible
+      const authResult = await createUserWithEmailAndPassword(auth, email, password);
+      await sendEmailVerification(authResult.user);
+  
+      const userCreated = await this.userService.createUser(authResult.user.uid, authResult.user.email);
+      if (userCreated) {
+        return authResult.user;
+      } else {
+        throw new Error('Erreur lors de la création de l\'utilisateur dans la base de données.');
       }
-      return error.message; // Renvoyer le message d'erreur standard pour d'autres erreurs
+    } catch (error) {
+      console.error('Erreur lors de l\'inscription:', error);
+      if (error.code === 'auth/weak-password') {
+        throw new Error('Mot de passe faible. Veuillez choisir un mot de passe plus fort.');
+      }
+      throw error;
     }
   }
-}
+}  
 
 export default new AuthService();

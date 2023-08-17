@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'; // Importez les icônes appropriées
 import { createStackNavigator } from "@react-navigation/stack";
-import {  StyleSheet} from 'react-native';
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -88,10 +87,3 @@ useEffect(() => {
     </NavigationContainer>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    borderTopWidth: '2px'
-  },
-})

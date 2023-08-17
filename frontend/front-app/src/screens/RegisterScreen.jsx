@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
 import AuthService from '../services/AuthService';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
 import { useNavigation } from '@react-navigation/native';
@@ -78,7 +78,7 @@ export default function RegisterScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>Login Screen</Text>
+      <Text style={styles.heading}>Créer un compte</Text>
       {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
       <TextInput
         placeholder="Email"
@@ -112,29 +112,61 @@ export default function RegisterScreen() {
         <Text style={styles.errorText}>Le mot de passe est trop faible</Text>
       )}
       <SubmitButtonComponent onPress={handleRegister} text="Register" />
-      
-      {/* Lien pour rediriger vers la page de connexion */}
-      <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-      <Text style={styles.loginLink}>Déjà un compte ? Se connecter</Text>
-    </TouchableOpacity>
     </View>
 );
 
 }
+
+
+const screenWidth = Dimensions.get('window').width;
+const isPortrait = screenWidth < Dimensions.get('window').height;
+
+const isMobileDevice = Platform.OS === 'ios' || Platform.OS === 'android';
+const isTabletDevice = isMobileDevice && screenWidth >= 768;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  heading: {
+    fontSize: 24,
+    marginBottom: 20,
   },
   input: {
-    width: '80%',
+    width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,
     height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginVertical: 10,
+    marginBottom: 15,
     paddingHorizontal: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  inputFocused: {
+    borderColor: '#6054B6', // Change color when focused
+  },
+  loginButton: {
+    width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,
+    backgroundColor: '#6054B6', 
+    borderRadius: 10,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  loginLinkContainer: {
+    marginTop: isMobileDevice ? (isPortrait ? '10%' : '10%') : isTabletDevice ? '2%' : '2%',
+  },
+  loginLink: {
+    color: 'black', // Couleur par défaut du texte
+  },
+  violetText: {
+    color: '#6054B6', // Couleur violette
   },
   error: {
     color: 'red',

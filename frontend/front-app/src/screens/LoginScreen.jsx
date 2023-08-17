@@ -16,7 +16,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Login Screen</Text>
+      <Text style={styles.heading}>Se connecter</Text>
       <TextInput
         placeholder="Email"
         value={email}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
   },
   inputFocused: {
-    borderColor: 'blue', // Change color when focused
+    borderColor: '#6054B6', // Change color when focused
   },
   loginButton: {
     width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,

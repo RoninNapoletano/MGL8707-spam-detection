@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
 import RegisterScreen from './RegisterScreen';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
+import { TextInput } from 'react-native-paper';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -19,26 +20,23 @@ export default function LoginScreen({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.heading}>Se connecter</Text>
       <TextInput
-        placeholder="Email"
+        label="Email"
+        placeholder="exemple@uqam.ca"
         value={email}
+        mode='outlined'
         onChangeText={setEmail}
-        onFocus={() => setIsEmailFocused(true)}
-        onBlur={() => setIsEmailFocused(false)}
         style={[
           styles.input,
-          isEmailFocused && styles.inputFocused,
         ]}
       />
-      <TextInput
-        placeholder="Password"
-        secureTextEntry
+           <TextInput
+        label="Mot de passe"
         value={password}
+        mode='outlined'
         onChangeText={setPassword}
-        onFocus={() => setIsPasswordFocused(true)}
-        onBlur={() => setIsPasswordFocused(false)}
+        secureTextEntry='true'
         style={[
           styles.input,
-          isPasswordFocused && styles.inputFocused,
         ]}
       />
       <SubmitButtonComponent onPress={handleLogin} text="Se connecter" />
@@ -71,9 +69,6 @@ const styles = StyleSheet.create({
     height: 40,
     marginBottom: 15,
     paddingHorizontal: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
   },
   inputFocused: {
     borderColor: '#6054B6', // Change color when focused

@@ -1,5 +1,7 @@
 import React, { useState, useContext  } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Platform } from 'react-native';
+import { TextInput } from 'react-native-paper';
+
 import AuthService from '../services/AuthService';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
 import { useNavigation } from '@react-navigation/native';
@@ -85,33 +87,36 @@ export default function RegisterScreen() {
       <Text style={styles.heading}>Créer un compte</Text>
       {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
       <TextInput
-        placeholder="Email"
+        label="Email"
+        placeholder="exemple@uqam.ca"
         value={email}
+        mode='outlined'
+        error={isEmailInvalid}
         onChangeText={text => {
           setEmail(text);
           setIsEmailInvalid(false);
-        }}
-        style={[
+        }}        style={[
           styles.input,
-          isEmailInvalid && { borderColor: 'red' },
         ]}
       />
-      {isEmailInvalid && (
-        <Text style={styles.errorText}>L'email est mal formaté</Text>
-      )}
-      <TextInput
-        placeholder="Password"
-        secureTextEntry
+           <TextInput
+        label="Mot de passe"
         value={password}
+        mode='outlined'
         onChangeText={text => {
           setPassword(text);
           setIsPasswordWeak(false);
         }}
+        secureTextEntry='true'
+        error={isPasswordWeak}
         style={[
           styles.input,
-          isPasswordWeak && { borderColor: 'red' },
         ]}
-      />
+         />
+      {isEmailInvalid && (
+        <Text style={styles.errorText}>L'email est mal formaté</Text>
+      )}
+    
       {isPasswordWeak && (
         <Text style={styles.errorText}>Le mot de passe est trop faible</Text>
       )}
@@ -146,10 +151,6 @@ const styles = StyleSheet.create({
     width: isMobileDevice ? (isPortrait ? '80%' : '50%') : isTabletDevice ? 400 : 465,
     height: 40,
     marginBottom: 15,
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
   },
   inputFocused: {
     borderColor: '#6054B6', // Change color when focused

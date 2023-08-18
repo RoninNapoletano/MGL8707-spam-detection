@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { PinchGestureHandler, State } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import InputScrollView from 'react-native-input-scroll-view';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import EmailInputComponent from '../components/Home/EmailInput';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
@@ -12,13 +12,9 @@ import InfoTextComponent from '../components/Home/InfoText';
 function HomeScreen() {
   const [email, setEmail] = useState('');
 
-  const handleEmailChange = (text) => {
-    setEmail(text);
-  };
-
-  const handleSubmit = () => {
-    console.log('Email soumis :', email);
-  };
+  const [isLoginSuccessVisible, setIsLoginSuccessVisible] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const route = useRoute();
 
   const screenWidth = Dimensions.get('window').width;
   const maxContentWidth = Math.min(500, screenWidth - 20);
@@ -26,6 +22,14 @@ function HomeScreen() {
   const [baseScale, setBaseScale] = useState(1);
   const [pinchScale, setPinchScale] = useState(1);
   const [scaleOffset, setScaleOffset] = useState(0);
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
+  };
+
+  const handleSubmit = () => {
+    console.log('Email soumis :', email);
+  };
 
   const handlePinch = (event) => {
     if (event.nativeEvent.state === State.ACTIVE) {
@@ -43,6 +47,11 @@ function HomeScreen() {
     transform: [{ scale: baseScale * pinchScale + scaleOffset }],
   };
 
+  useEffect(() => {
+    if (route.params && route.params.isLoginSuccessVisible) {
+    }
+  }, [route.params]);
+
   return (
     <PinchGestureHandler
       onGestureEvent={handlePinch}
@@ -52,10 +61,10 @@ function HomeScreen() {
         {/* Or use InputScrollView */}
         {/* <InputScrollView contentContainerStyle={styles.container}> */}
           <View style={[styles.content, contentStyle, { maxWidth: maxContentWidth }]}>
-            <TextTopComponent text="Saissisez votre email afin de vérifier si il s'agit d'un spam" />
+           <TextTopComponent text="Saissisez votre email afin de vérifier si il s'agit d'un spam" />
             <InfoTextComponent text="Vérifier si vos emails ne sont pas des spams grâce à une solution moderne" />
             <EmailInputComponent value={email} onChangeText={handleEmailChange} />
-            <SubmitButtonComponent onPress={handleSubmit} />
+            <SubmitButtonComponent onPress={handleSubmit} text="Envoyer" />
           </View>
         {/* </InputScrollView> */}
       </KeyboardAwareScrollView>
@@ -68,11 +77,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F8F9FC',
+    backgroundColor: '#fff',
   },
   content: {
     alignItems: 'flex-start',
     padding: 10,
+  },
+  success: {
+    color: 'green',
+    marginTop: 10,
   },
 });
 

@@ -2,3 +2,4 @@
 .note.txt
 logs/
 *.csv
+.env

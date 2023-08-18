@@ -29,7 +29,6 @@ const EmailInputComponent = () => {
 
   return (
       <TextInput
-        placeholder="Email à analyser"
         label="Email à analyser"
         mode="outlined"
         required
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
   },
   input:{
     width: isMobileDevice ? (isPortrait ? 350 : '50%') : isTabletDevice ? 400 : 465,
-    height: 150,
+    height: 130,
     marginBottom: 20,
   }
 });

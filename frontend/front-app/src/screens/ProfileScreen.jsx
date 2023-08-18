@@ -54,10 +54,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    backgroundColor: '#fff',
   },
   card: {
     width: '80%',
     maxWidth: 400,
+    backgroundColor: '#fff',
   },
   cardContent: {
     alignItems: 'center',

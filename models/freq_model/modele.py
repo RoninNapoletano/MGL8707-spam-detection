@@ -13,6 +13,16 @@ input_data = json.loads(input_data_str)
 data = pd.DataFrame([input_data])
     # Faire la prédiction
 prediction = model.predict(data)
+prediction_int = int(prediction[0])
 
-print(prediction[0])
+# Créer un dictionnaire contenant la prédiction
+result_dict = {
+    "prediction": prediction_int
+}
+
+# Convertir le dictionnaire en une chaîne JSON
+result_json = json.dumps(result_dict)
+
+# Imprimer la chaîne JSON pour la renvoyer en sortie
+print(result_json)
    

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, Dimensions, Platform } from 'react-native';
 import { HelperText, TextInput } from 'react-native-paper';
 
-const EmailInputComponent = () => {
+const EmailInputComponent = (value, onChangeText) => {
   const screenWidth = Dimensions.get('window').width;
   const isPortrait = screenWidth < Dimensions.get('window').height;
 
@@ -33,6 +33,7 @@ const EmailInputComponent = () => {
         mode="outlined"
         required
         multiline
+        onChangeText={onChangeText}
         style={[
           styles.input,
         ]}

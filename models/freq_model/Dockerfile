@@ -13,6 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiez le modèle et votre script dans l'image
 COPY uci_model.py .
 COPY spambase_csv.xls .
+COPY modele.py .
+COPY model.joblib .
 
 # Commande par défaut pour exécuter votre script (remplacez cela par la commande appropriée pour lancer votre modèle)
-CMD ["python", "uci_model.py"]
+CMD ["python", "modele.py"]

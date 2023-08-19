@@ -2,14 +2,15 @@ import React, { useState, useEffect  } from 'react';
 import { View, StyleSheet, Dimensions, Platform } from 'react-native';
 import { PinchGestureHandler, State } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { HelperText, TextInput } from 'react-native-paper';
-import axios from 'axios';
+import {  useRoute } from '@react-navigation/native';
+import {  TextInput } from 'react-native-paper';
 
-import EmailInputComponent from '../components/Home/EmailInput';
+
 import SubmitButtonComponent from '../components/Home/SubmitButton';
 import TextTopComponent from '../components/Home/TextTop';
 import InfoTextComponent from '../components/Home/InfoText';
+
+import PredictionService from '../services/PredictionService';
 
 function HomeScreen() {
   const [email, setEmail] = useState('');
@@ -26,9 +27,9 @@ function HomeScreen() {
   const [pinchScale, setPinchScale] = useState(1);
   const [scaleOffset, setScaleOffset] = useState(0);
 
-
+  
   const handleSubmit = async() => {
-    const response = await axios.post('http://localhost:3000/prediction', {email:email});
+    new PredictionService(email).makePrediction()
     console.log('Email soumis :', email);
   };
 

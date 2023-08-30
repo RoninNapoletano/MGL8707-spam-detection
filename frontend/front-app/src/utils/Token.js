@@ -1,5 +1,6 @@
-import * as SecureStore from "expo-secure-store";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getAuth, getIdToken } from 'firebase/auth'
+
 class TokenStorage {
   async saveToken(key, token) {
     try {
@@ -21,7 +22,7 @@ class TokenStorage {
       return JSON.parse(token);
     } catch (error) {
       console.log("Error while retrieving the token: ", error);
-      return null;
+      return null
     }
   }
 }

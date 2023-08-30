@@ -9,6 +9,7 @@ import {  TextInput } from 'react-native-paper';
 import SubmitButtonComponent from '../components/Home/SubmitButton';
 import TextTopComponent from '../components/Home/TextTop';
 import InfoTextComponent from '../components/Home/InfoText';
+import ShowResultPrediction from '../components/Home/showResultPrediction';
 
 import PredictionService from '../services/PredictionService';
 
@@ -16,8 +17,10 @@ function HomeScreen() {
   const [email, setEmail] = useState('');
   const [isTextInputFocused, setIsTextInputFocused] = useState(false);
   
-  const [isLoginSuccessVisible, setIsLoginSuccessVisible] = useState(false);
+  const [isPredictionSuccessVisible, setIsPredictionSuccessVisible] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const [predictionMessage, setPredictionMessage] = useState(''); 
+
   const route = useRoute();
 
   const screenWidth = Dimensions.get('window').width;
@@ -29,10 +32,26 @@ function HomeScreen() {
 
   
   const handleSubmit = async() => {
-    new PredictionService(email).makePrediction()
-    console.log('Email soumis :', email);
-  };
+    const predictionService = new PredictionService(email);
+    const predictionResult = await predictionService.makePrediction();
 
+    const handlePredictionResult = (success, data, error) => {
+      setIsPredictionSuccessVisible(success);
+      setShowNotification(!success);
+      if (success) {
+          if (data.prediction === 0) {
+            setPredictionMessage('Email de non spam'); 
+          } else if (data.prediction === 1) {
+            setPredictionMessage('Email spam');
+          }
+      } else {
+        setPredictionMessage('Une erreur est survenue:', error || 'Veuillez réessayer');
+      }
+      
+  };
+  handlePredictionResult(predictionResult.success, predictionResult.data, predictionResult.error);
+
+  }
   const handlePinch = (event) => {
     if (!isTextInputFocused && event.nativeEvent.state === State.ACTIVE) {
       setPinchScale(event.nativeEvent.scale);
@@ -66,6 +85,7 @@ function HomeScreen() {
           <View style={[styles.content, contentStyle, { maxWidth: maxContentWidth }]}>
            <TextTopComponent text="Saissisez votre email afin de vérifier si il s'agit d'un spam" />
             <InfoTextComponent text="Vérifier si vos emails ne sont pas des spams grâce à une solution moderne" />
+            {predictionMessage && <ShowResultPrediction text={predictionMessage} />}             
            <TextInput
               label="Email à analyser"
               mode="outlined"

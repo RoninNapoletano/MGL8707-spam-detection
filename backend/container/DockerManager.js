@@ -2,7 +2,7 @@ const { spawnSync } = require('child_process');
 
 class DockerManager{
     constructor(orderedSpambaseFeatures){
-        this.dockerRunCommand = `docker run -p 3001:3001 -e INPUT_DATA="${JSON.stringify(orderedSpambaseFeatures).replace(/"/g, '\\"')}" modele_uci:latest`;
+        this.dockerRunCommand = `docker run -p 3001:3001 -e INPUT_DATA="${JSON.stringify(orderedSpambaseFeatures).replace(/"/g, '\\"')}" modele:latest`;
     }
 
         createDocker(){
